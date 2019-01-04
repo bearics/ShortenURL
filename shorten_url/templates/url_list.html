@@ -1,0 +1,11 @@
+
+{% for url in url_list %}
+    {{ url.original_url }}
+    {{ url.shortened_url }}
+    {{ url.date }}
+    </br>
+{%  endfor %}
+
+{% for page in total_page %}
+    <span>{{ page }}</span>
+{% endfor %}

@@ -1,0 +1,14 @@
+hello~~~
+{% if new_url %}
+    {% include 'update_url.html' %}
+{% endif %}
+
+<form method="post" action="">
+    {% csrf_token %}
+    {{ send_url_form }}
+    url :
+
+    <input type="submit" value="Register">
+</form>
+    </br>
+{% include 'url_list.html' %}
