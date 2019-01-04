@@ -1,17 +1,8 @@
 from django.template.context_processors import csrf
-from django.template.loader import get_template
-
-from django.shortcuts import render
-
 from shorten_url.forms import SendUrlForm
-from shorten_url.models import Url
-
-from shorten_url.models import Url
-from django.http.response import HttpResponse, HttpResponseRedirect
-from django.template.loader import get_template
-
+from django.http.response import HttpResponseRedirect
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
+from django.shortcuts import render
 from shorten_url.shorten import *
 
 
@@ -36,23 +27,11 @@ def home(request):
     context.update(csrf(request))
 
     # show url list
-    template = get_template('home.html')
+    urls = Url.objects.order_by('-date')
 
-    page_data = Paginator(Url.objects.all(), 3)
-    page = request.GET.get('page')
-    try:
-        urls = page_data.page(page)
-    except PageNotAnInteger:
-        urls = page_data.page(1)
-    except EmptyPage:
-        urls = page_data.page(page_data.num_pages)
+    context.update({'url_list': urls})
 
-    context.update({'url_list': urls,
-                    'current_page': page,
-                    'total_page': range(1, page_data.num_pages + 1),
-                    })
-
-    return HttpResponse(template.render(context, request))
+    return render(request, 'home.html', context)
 
 
 def redirect(request, shortened_url):

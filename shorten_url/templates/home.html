@@ -1,14 +1,70 @@
-hello~~~
-{% if new_url %}
-    {% include 'update_url.html' %}
-{% endif %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+    {% include 'head.html' %}
+    <body class="bg-light">
+        <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Surl</a>
+            <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-<form method="post" action="">
-    {% csrf_token %}
-    {{ send_url_form }}
-    url :
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Shorten URL <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Analysis</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="http://127.0.0.1:8000/admin">Admin</a>
+                </li>
+            </ul>
+            </div>
+        </nav>
 
-    <input type="submit" value="Register">
-</form>
-    </br>
-{% include 'url_list.html' %}
+        <main role="main" class="container">
+            <div class="my-3 p-3 bg-info rounded box-shadow" style="color: #FFFFFF;">
+                <div style="color: #FFFFFF; font-size: 3em; text-align: center; padding: 10px 0px 20px 0px">Shorten URL</div>
+                {#input form#}
+                {% load widget_tweaks %}
+                <div class="container">
+                    <form method="post" action="" novalidate>
+                    {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12" >
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">url:</span>
+                                    </div>
+                                    {{ send_url_form.original_url|append_attr:"class:form-control" }}
+                                    <div class="input-group-append">
+                                        <button class="btn btn-warning" type="submit">Make</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                </form>
+                </div>
+
+            </div>
+            {# put success message#}
+            {% if new_url %}
+                {% include 'update_url.html' %}
+            {% endif %}
+
+            {% include 'url_list.html' %}
+        </main>
+
+
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="/static/offcanvas.js"></script>
+    </body>
+</html>
