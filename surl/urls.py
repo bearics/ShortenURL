@@ -19,6 +19,7 @@ from django.urls import path
 from shorten_url import views
 
 urlpatterns = [
-    path('', views.home, name='shorten'),
+    path('', views.home, name='home'),
+    path('<slug:shortened_url>', views.redirect, name='redirect'),
     path('admin/', admin.site.urls),
 ]

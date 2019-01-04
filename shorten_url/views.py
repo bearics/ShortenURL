@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from django.http.response import HttpResponse
 from django.template.context_processors import csrf
 from django.template.loader import get_template
 
@@ -9,23 +7,22 @@ from shorten_url.forms import SendUrlForm
 from shorten_url.models import Url
 
 from shorten_url.models import Url
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from shorten_url.shorten import shorten_url
+from shorten_url.shorten import *
 
 
 def home(request):
-
     # if get original url, make short
     context = {}
     new_url = False
     if request.method == "POST":
         form_data = SendUrlForm(request.POST)
 
-        if form_data.is_valid():    # get normal url
+        if form_data.is_valid():  # get normal url
             url = shorten_url(form_data.cleaned_data['original_url'])
             url.save()
             context.update({'updated_url': url})
@@ -56,3 +53,8 @@ def home(request):
                     })
 
     return HttpResponse(template.render(context, request))
+
+
+def redirect(request, shortened_url):
+    redirect_url = get_original_url(shortened_url)
+    return HttpResponseRedirect(redirect_to=redirect_url)
