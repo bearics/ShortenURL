@@ -2,13 +2,20 @@
 <div class="my-3 p-3 bg-white rounded box-shadow">
     <h6 class="border-bottom border-gray pb-2 mb-0">Recent Links</h6>
     {% for url in url_list|slice:":5" %}
-    <div class="media text-muted pt-3">
-        <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+    <div class="media text-muted pt-3 container row border-bottom border-gray">
+        <div class="media-body pb-3 mb-0 small lh-125 col-9">
             <div class="d-flex justify-content-between align-items-center w-100">
                 <strong class="text-gray-dark">{{ url.original_url }}</strong>
-                <a href="http://127.0.0.1:8000/{{ url.shortened_url }}">{{ url.shortened_url }} - Link</a>
             </div>
             <span class="d-block">{{ url.date }}</span>
+        </div>
+        <div class="container col-3">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="{{ url.shortened_url }}" aria-label="Recipient's username" aria-describedby="basic-addon2" readonly>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="{{ url.shortened_url }}" onclick="copyButton(this.id)">Copy</button>
+                </div>
+            </div>
         </div>
     </div>
     {%  endfor %}

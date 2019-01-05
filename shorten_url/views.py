@@ -9,18 +9,20 @@ from shorten_url.shorten import *
 def home(request):
     # if get original url, make short
     context = {}
-    new_url = False
     if request.method == "POST":
         form_data = SendUrlForm(request.POST)
 
         if form_data.is_valid():  # get normal url
-            url = shorten_url(form_data.cleaned_data['original_url'])
-            url.save()
-            context.update({'updated_url': url})
-
-        new_url = True
-
-    context.update({'new_url': new_url})
+            original_url = form_data.cleaned_data['original_url']
+            if original_url.find("://") == -1:
+                context.update({'error': '\"' + original_url + '\"' + ' is not url.'})
+            else:
+                if len(original_url) < 14:
+                    context.update({'error': '\"' + original_url + '\"' + ' is too short.'})
+                else:
+                    url = shorten_url(original_url)
+                    url.save()
+                    context.update({'updated_url': url})
 
     # get original url
     context.update({'send_url_form': SendUrlForm()})

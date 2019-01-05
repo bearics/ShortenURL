@@ -2,4 +2,4 @@ from django import forms
 
 
 class SendUrlForm(forms.Form):
-    original_url = forms.CharField(max_length=50)
+    original_url = forms.CharField(max_length=200)
